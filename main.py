@@ -54,6 +54,7 @@ except Exception:  # pragma: no cover - optional dependency
     PIL_AVAILABLE = False
 
 
+# Popular targets stored as (Right Ascension hours, Declination degrees)
 POPULAR_TARGETS: Dict[str, Tuple[float, float]] = {
     "Andromeda Galaxy (M31)": (0.7122, 41.2692),
     "Orion Nebula (M42)": (5.5881, -5.3911),
@@ -104,7 +105,7 @@ def parse_sexagesimal(value: str, *, hours: bool = False) -> float:
     seconds = numbers[2] / 3600.0 if len(numbers) > 2 else 0.0
     total = sign * (base + minutes + seconds)
     if hours:
-        return total % 24.0 if total >= 0 else total
+        return total % 24.0
     return total
 
 
@@ -645,7 +646,8 @@ class TelescopeJoystickApp:
             self.target_var.set(f"{name} — RA {format_ra(ra_hours)} | Dec {format_dec(dec_deg)}")
 
     def _format_speed(self) -> str:
-        return f"{SLEW_SPEED_LEVELS[self.slew_speed_index]:.2f}°/s"
+        idx = int(clamp(self.slew_speed_index, 0, len(SLEW_SPEED_LEVELS) - 1))
+        return f"{SLEW_SPEED_LEVELS[idx]:.2f}°/s"
 
     def adjust_slew_speed(self, delta: int) -> None:
         self.slew_speed_index = int(clamp(self.slew_speed_index + delta, 0, len(SLEW_SPEED_LEVELS) - 1))
