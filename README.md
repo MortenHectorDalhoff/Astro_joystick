@@ -14,20 +14,17 @@ Tkinter desktop app that lets you steer an ASCOM-compatible telescope mount with
 ## Requirements
 - Windows with ASCOM platform installed for real mount control
 - Python 3.9+
-- Optional packages:
+- Optional/extra packages (listed in `requirements.txt`):
   - `pygame` for joystick input
-  - `comtypes` or `pywin32` for ASCOM COM access
-  - `Pillow` for headless screenshot support
-
-Install optional dependencies as needed:
-
-```bash
-pip install pygame comtypes pillow
-```
+  - `comtypes` / `pywin32` for ASCOM COM access
+  - `Pillow` for screenshot support
 
 ## Usage
 
 ```bash
+python -m venv .venv
+source .venv/bin/activate  # or .venv\\Scripts\\activate on Windows
+pip install -r requirements.txt
 python main.py
 ```
 
@@ -42,3 +39,13 @@ To capture a UI screenshot (requires Pillow):
 ```bash
 python main.py --screenshot ui.png
 ```
+
+## Project layout
+
+- `main.py` — small entry point
+- `astro_joystick/` — package modules:
+  - `ui.py` — Tkinter UI
+  - `joystick.py` — pygame integration and button mapping
+  - `telescope.py` — ASCOM/mount handling with simulator fallback
+  - `utils.py` — coordinate helpers
+  - `constants.py` — popular targets and slew speeds
