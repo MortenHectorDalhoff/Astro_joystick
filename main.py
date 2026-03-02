@@ -98,16 +98,14 @@ def parse_sexagesimal(value: str, *, hours: bool = False) -> float:
         .replace(":", " ")
     )
     parts = cleaned.split()
-    numbers = [float(p) for p in parts]
-    total = 0.0
-    if len(numbers) == 1:
-        total = numbers[0]
-    elif len(numbers) == 2:
-        total = numbers[0] + numbers[1] / 60.0
-    else:
-        total = numbers[0] + numbers[1] / 60.0 + numbers[2] / 3600.0
-    total *= sign
-    return total if not hours else total
+    numbers = [abs(float(p)) for p in parts]
+    base = numbers[0] if numbers else 0.0
+    minutes = numbers[1] / 60.0 if len(numbers) > 1 else 0.0
+    seconds = numbers[2] / 3600.0 if len(numbers) > 2 else 0.0
+    total = sign * (base + minutes + seconds)
+    if hours:
+        return total % 24.0 if total >= 0 else total
+    return total
 
 
 def format_ra(hours: float) -> str:
