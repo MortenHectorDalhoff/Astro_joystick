@@ -1,0 +1,5 @@
+# Optional dependencies for full functionality
+pygame
+comtypes
+pywin32
+pillow
