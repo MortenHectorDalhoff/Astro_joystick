@@ -65,7 +65,17 @@ class TelescopeJoystickApp:
         style.configure("Accent.TButton", background=accent, foreground="white", padding=8, font=("Segoe UI", 10, "bold"))
         style.map("Accent.TButton", background=[("active", "#6bb4ff")])
         style.configure("TCheckbutton", background=bg, foreground=text, font=("Segoe UI", 10))
+        style.configure("TEntry", padding=4, fieldbackground=panel, background=panel, foreground=text, insertcolor=text)
+        style.map(
+            "TEntry",
+            fieldbackground=[("disabled", panel), ("readonly", panel)],
+        )
         style.configure("TCombobox", padding=4, fieldbackground=panel, background=panel, foreground=text)
+        style.map(
+            "TCombobox",
+            fieldbackground=[("readonly", panel), ("disabled", panel)],
+            background=[("readonly", panel), ("disabled", panel)],
+        )
 
     def _build_ui(self) -> None:
         root_frame = ttk.Frame(self.root)
